@@ -12,11 +12,9 @@ bot.command('char', async ctx => {
     const char = ctx.message.text.replace('/char', '')
     if (char) {
         const charInfo = await axios.get(`https://api.tibiadata.com/v2/characters/${char}.json`).then(res => res.data.characters.data).catch(err => {
-            // bot.telegram.sendMessage(ctx.chat.id, 'Invalid name.')
             ctx.reply('Invalid name.')
         })
         if (!charInfo || !charInfo.name) {
-            // return bot.telegram.sendMessage(ctx.chat.id, 'Invalid name.')
             return ctx.reply('Invalid name.')
         }
         const vocationIcon = () => {
@@ -31,17 +29,17 @@ bot.command('char', async ctx => {
                 case 'Master Sorcerer' : return '🔥'
             }
         }
-        const charResponse = `<pre>${charInfo.name} ${charInfo.sex === 'male' ? '♂' : '♀'}
+        const charResponse = `${charInfo.name} ${charInfo.sex === 'male' ? '♂' : '♀'}
 <b>Vocation:</b> ${charInfo.vocation} ${vocationIcon()}
 <b>Level:</b> ${charInfo.level}
 <b>World:</b> ${charInfo.world}
 <b>Residence:</b> ${charInfo.residence}
 <b>Guild:</b> ${charInfo.guild?.name ? `${charInfo.guild?.rank} of ${charInfo.guild?.name}` : '-'}
 <b>Status:</b> ${charInfo.status} ${charInfo.status === 'online' ? '🟢' : '🔴'}
-</pre> <a href="https://www.tibia.com/community/?subtopic=characters&name=${charInfo.name}">See more</a>`
+<a href="https://www.tibia.com/community/?subtopic=characters&name=${charInfo.name}">See more</a>`
         ctx.reply(charResponse, {parse_mode: "HTML", disable_web_page_preview: true, reply_to_message_id: ctx.message.message_id})
     } else {
-        ctx.reply('Invalid name.')
+        ctx.reply('Try use "<pre>/char [name]</pre>"', {reply_to_message_id: ctx.message.message_id, parse_mode: 'HTML'})
     }
 })
 
@@ -51,13 +49,12 @@ bot.command('test', ctx => {
 
 bot.command('share', ctx => {
     const level = ctx.message.text.split(' ')[1]
-    console.log(ctx.message)
     if (level && level > 1) {
         const minLevel = Math.round(level/3*2)
         const maxLevel = Math.round(level/2*3)
         ctx.reply(`A level ${level} can share experience with levels ${minLevel} to ${maxLevel}.`, {reply_to_message_id: ctx.message.message_id})
     } else {
-        ctx.reply('/share <level>')
+        ctx.reply('Try to use "<pre>/share [level]</pre>"', {reply_to_message_id: ctx.message.message_id, parse_mode: 'HTML'})
     }
 })
 
