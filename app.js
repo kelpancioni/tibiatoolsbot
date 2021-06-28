@@ -1,8 +1,11 @@
-const {Telegraf} = require('telegraf')
+// const {Telegraf} = require('telegraf')
 const axios = require('axios')
 const dotenv = require('dotenv')
+const { Composer } = require('micro-bot')
 dotenv.config()
-const bot = new Telegraf(process.env.API_KEY)
+// const bot = new Telegraf(process.env.API_KEY)
+
+const bot = new Composer
 
 // bot.command('start', ctx => {
 //    console.log(ctx.from)
@@ -119,4 +122,5 @@ bot.inlineQuery('share', async ctx => {
 //     }
 // })
 
-bot.launch();
+module.exports = bot
+// bot.launch();
