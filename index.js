@@ -12,6 +12,9 @@ const bot = new Composer
 //     bot.telegram.sendMessage(ctx.chat.id, 'hello there! Welcome to my new telegram bot.', {
 //     })
 // })
+bot.start(ctx => {
+    ctx.reply('Bot has started.')
+})
 
 bot.command('char', async ctx => {
     // ctx.message.text = /char Brena Tari = Brena Tari
