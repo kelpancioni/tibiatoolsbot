@@ -1,17 +1,8 @@
-// const {Telegraf} = require('telegraf')
 const axios = require('axios')
-// const dotenv = require('dotenv')
 const { Composer } = require('micro-bot')
-// dotenv.config()
-// const bot = new Telegraf(process.env.API_KEY)
 
 const bot = new Composer
 
-// bot.command('start', ctx => {
-//    console.log(ctx.from)
-//     bot.telegram.sendMessage(ctx.chat.id, 'hello there! Welcome to my new telegram bot.', {
-//     })
-// })
 bot.start(ctx => {
     ctx.reply('Bot has started.')
 })
@@ -48,18 +39,13 @@ bot.command('char', async ctx => {
 <b>Guild:</b> ${charInfo.guild?.name ? `${charInfo.guild?.rank} of ${charInfo.guild?.name}` : '-'}
 <b>Status:</b> ${charInfo.status} ${charInfo.status === 'online' ? '🟢' : '🔴'}
 </pre> <a href="https://www.tibia.com/community/?subtopic=characters&name=${charInfo.name}">See more</a>`
-        // bot.telegram.sendMessage(ctx.chat.id, charResponse, {parse_mode: "HTML", disable_web_page_preview: true, reply_to_message_id: ctx.message.message_id})
         ctx.reply(charResponse, {parse_mode: "HTML", disable_web_page_preview: true, reply_to_message_id: ctx.message.message_id})
     } else {
-        // bot.telegram.sendMessage(ctx.chat.id, 'Invalid name.')
         ctx.reply('Invalid name.')
     }
 })
 
 bot.command('test', ctx => {
-    // bot.telegram.sendMessage(ctx.chat.id, `
-    //     <pre>Teste h3</pre>
-    // `, {parse_mode: 'HTML'})
     ctx.reply(`<pre>Teste h3</pre>`, {parse_mode: 'HTML'})
 })
 
@@ -69,85 +55,53 @@ bot.command('share', ctx => {
     if (level && level > 1) {
         const minLevel = Math.round(level/3*2)
         const maxLevel = Math.round(level/2*3)
-        // bot.telegram.sendMessage(ctx.chat.id, `A level ${level} can share experience with levels ${minLevel} to ${maxLevel}.`, {reply_to_message_id: ctx.message.message_id})
         ctx.reply(`A level ${level} can share experience with levels ${minLevel} to ${maxLevel}.`, {reply_to_message_id: ctx.message.message_id})
     } else {
-        // bot.telegram.sendMessage(ctx.chat.id, 'Invalid level.')
-        ctx.reply('Invalid level.')
+        ctx.reply('/share <level>')
     }
 })
 
-// bot.on('inline_query', async (inlineQuery) => {
+// bot.on('inline_query', async (inlineQuery, answerInlineQuery) => {
 //     console.log(inlineQuery)
-//      inlineQuery.answerInlineQuery([{
-//         type: 'article',
-//         id: 'idididdi',
-//         title: 'Title',
-//         input_message_content: {
-//             message_text: 'teste testoso'
-//         }
-//     }])
+//     //  return answerInlineQuery({
+//     //     type: 'article',
+//     //     id: '1',
+//     //     title: 'Teste',
+//     //     input_message_content: {
+//     //         message_text: 'teste testoso'
+//     //     }
+//     // })
 //     // return answerInlineQuery(inlineQuery.id, [], 'Teste')
 //     // bot.telegram.sendMessage(ctx.chat.id, animalMessage )
 // })
 
-bot.inlineQuery('share', async ctx => {
-    console.log(ctx)
-    // ctx.answerInlineQuery([{
-    //     type: 'article',
-    //     id: '1',
-    //     title: 'Title',
-    //     input_message_content: {
-    //         message_text: 'teste testoso'
-    //     }
-    // }])
-    // return answerInlineQuery(inlineQuery.id, [], 'Teste')
-    // return await bot.telegram.answerInlineQuery(ctx.inlineQuery.id, [{
-    //     type: '',
-    //     id: '1',
-    //     title: '',
-    //     input_message_content: {
-    //         message_text: 'teste testoso'
-    //     },
-    //     reply_markup: {
-    //         inline_keyboard: [{
-    //
-    //         }]
-    //
-    //     }
-    // }], {
-    //     switch_pm_text: 'share <level>',
-    //     switch_pm_parameter: 'share'
-    // })
-    return await ctx.answerInlineQuery(ctx.inline_query.id, [{
-        type: '',
-        id: '1',
-        title: '',
-        input_message_content: {
-            message_text: 'teste testoso'
-        },
-        reply_markup: {
-            inline_keyboard: [{
-
-            }]
-
-        }
-    }], {
-        switch_pm_text: 'share <level>',
-        switch_pm_parameter: 'share'
-    })
-})
-
-// bot.inlineQuery('share', ctx => {
-//     const level = ctx.message.text.split(' ')[1]
-//     if (level && level > 1) {
-//         const minLevel = Math.round(level/3*2)
-//         const maxLevel = Math.round(level/2*3)
-//         bot.telegram.sendMessage(ctx.chat.id, `A level ${level} can share experience with levels ${minLevel} to ${maxLevel}.`)
-//     } else {
-//         bot.telegram.sendMessage(ctx.chat.id, 'Invalid level.')
-//     }
+// bot.inlineQuery('share2', (ctx) => {
+//     // // const level = ctx.message.text.split(' ')[1]
+//     // if (level && level > 1) {
+//     //     const minLevel = Math.round(level/3*2)
+//     //     const maxLevel = Math.round(level/2*3)
+//     //     // bot.telegram.sendMessage(ctx.chat.id, `A level ${level} can share experience with levels ${minLevel} to ${maxLevel}.`)
+//     // } else {
+//     //     // bot.telegram.sendMessage(ctx.chat.id, 'Invalid level.')
+//     // }
+//     console.log(ctx)
+//     ctx.answerInlineQuery([{
+//         type: 'article',
+//         id: '2',
+//         title: 'Testeeee',
+//         input_message_content: {
+//             message_text: 'teste testoso'
+//         },
+//         reply_markup: {
+//             inline_keyboard: [[{
+//                 text: '1',
+//                 callback_data: '1'
+//             }]]
+//         }
+//     }], {
+//         switch_pm_text: 'teste',
+//         switch_pm_parameter: 'share'
+//     })
 // })
 
 module.exports = bot
-// bot.launch();
