@@ -1,8 +1,8 @@
 // const {Telegraf} = require('telegraf')
 const axios = require('axios')
-const dotenv = require('dotenv')
+// const dotenv = require('dotenv')
 const { Composer } = require('micro-bot')
-dotenv.config()
+// dotenv.config()
 // const bot = new Telegraf(process.env.API_KEY)
 
 const bot = new Composer
