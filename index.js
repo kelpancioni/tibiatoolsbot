@@ -21,10 +21,12 @@ bot.command('char', async ctx => {
     const char = ctx.message.text.replace('/char', '')
     if (char) {
         const charInfo = await axios.get(`https://api.tibiadata.com/v2/characters/${char}.json`).then(res => res.data.characters.data).catch(err => {
-            bot.telegram.sendMessage(ctx.chat.id, 'Invalid name.')
+            // bot.telegram.sendMessage(ctx.chat.id, 'Invalid name.')
+            ctx.reply(ctx.chat.id, 'Invalid name.')
         })
         if (!charInfo || !charInfo.name) {
-            return bot.telegram.sendMessage(ctx.chat.id, 'Invalid name.')
+            // return bot.telegram.sendMessage(ctx.chat.id, 'Invalid name.')
+            return ctx.reply(ctx.chat.id, 'Invalid name.')
         }
         const vocationIcon = () => {
             switch (charInfo.vocation) {
@@ -46,14 +48,19 @@ bot.command('char', async ctx => {
 <b>Guild:</b> ${charInfo.guild?.name ? `${charInfo.guild?.rank} of ${charInfo.guild?.name}` : '-'}
 <b>Status:</b> ${charInfo.status} ${charInfo.status === 'online' ? '🟢' : '🔴'}
 </pre> <a href="https://www.tibia.com/community/?subtopic=characters&name=${charInfo.name}">See more</a>`
-        bot.telegram.sendMessage(ctx.chat.id, charResponse, {parse_mode: "HTML", disable_web_page_preview: true, reply_to_message_id: ctx.message.message_id})
+        // bot.telegram.sendMessage(ctx.chat.id, charResponse, {parse_mode: "HTML", disable_web_page_preview: true, reply_to_message_id: ctx.message.message_id})
+        ctx.reply(ctx.chat.id, charResponse, {parse_mode: "HTML", disable_web_page_preview: true, reply_to_message_id: ctx.message.message_id})
     } else {
-        bot.telegram.sendMessage(ctx.chat.id, 'Invalid name.')
+        // bot.telegram.sendMessage(ctx.chat.id, 'Invalid name.')
+        ctx.reply(ctx.chat.id, 'Invalid name.')
     }
 })
 
 bot.command('test', ctx => {
-    bot.telegram.sendMessage(ctx.chat.id, `
+    // bot.telegram.sendMessage(ctx.chat.id, `
+    //     <pre>Teste h3</pre>
+    // `, {parse_mode: 'HTML'})
+    ctx.reply(ctx.chat.id, `
         <pre>Teste h3</pre>
     `, {parse_mode: 'HTML'})
 })
@@ -64,9 +71,11 @@ bot.command('share', ctx => {
     if (level && level > 1) {
         const minLevel = Math.round(level/3*2)
         const maxLevel = Math.round(level/2*3)
-        bot.telegram.sendMessage(ctx.chat.id, `A level ${level} can share experience with levels ${minLevel} to ${maxLevel}.`, {reply_to_message_id: ctx.message.message_id})
+        // bot.telegram.sendMessage(ctx.chat.id, `A level ${level} can share experience with levels ${minLevel} to ${maxLevel}.`, {reply_to_message_id: ctx.message.message_id})
+        ctx.reply(ctx.chat.id, `A level ${level} can share experience with levels ${minLevel} to ${maxLevel}.`, {reply_to_message_id: ctx.message.message_id})
     } else {
-        bot.telegram.sendMessage(ctx.chat.id, 'Invalid level.')
+        // bot.telegram.sendMessage(ctx.chat.id, 'Invalid level.')
+        ctx.reply(ctx.chat.id, 'Invalid level.')
     }
 })
 
@@ -95,7 +104,24 @@ bot.inlineQuery('share', async ctx => {
     //     }
     // }])
     // return answerInlineQuery(inlineQuery.id, [], 'Teste')
-    return await bot.telegram.answerInlineQuery(ctx.inlineQuery.id, [{
+    // return await bot.telegram.answerInlineQuery(ctx.inlineQuery.id, [{
+    //     type: '',
+    //     id: '1',
+    //     title: '',
+    //     input_message_content: {
+    //         message_text: 'teste testoso'
+    //     },
+    //     reply_markup: {
+    //         inline_keyboard: [{
+    //
+    //         }]
+    //
+    //     }
+    // }], {
+    //     switch_pm_text: 'share <level>',
+    //     switch_pm_parameter: 'share'
+    // })
+    return await ctx.answerInlineQuery(ctx.inlineQuery.id, [{
         type: '',
         id: '1',
         title: '',
