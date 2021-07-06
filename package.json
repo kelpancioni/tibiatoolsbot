@@ -2,10 +2,12 @@
   "name": "tibiatoolsbot",
   "version": "2.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/src/index.js",
   "scripts": {
     "start": "micro-bot",
-    "dev": "nodemon --exec micro-bot -e'",
+    "build": "tsc --project ./",
+    "build:serve": "tsc --project ./ && micro-bot -e", 
+    "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,9 +16,12 @@
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
     "micro-bot": "^2.5.3",
-    "telegraf": "^4.3.0"
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.5"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "@types/node": "^16.0.0",
+    "nodemon": "^2.0.7",
+    "telegraf": "^3.25.4"
   }
 }
