@@ -1,6 +1,6 @@
 
 # tibia-tools-bot
-> 🤖 Tibia Telegram bot
+> 🤖 Tibia Telegram Bot
 
 ## Installation
 
@@ -29,3 +29,7 @@ $ npm run build:serve
 ```bash
 $ npm run dev
 ```
+
+## Contributing
+
+If you are contributing, please make sure to create a fork of this project and create a pull request to the `develop` branch.
