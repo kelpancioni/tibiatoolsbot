@@ -1,21 +1,23 @@
-const axios = require('axios')
+import * as tt from 'telegraf/typings';
+import axios, {AxiosResponse} from 'axios';
+
 const { Composer } = require('micro-bot')
 
 const bot = new Composer
 
-bot.start(ctx => {
+bot.start((ctx: tt.Context): void => {
     ctx.reply('Bot has started.')
 })
 
-bot.command('char', async ctx => {
+bot.command('char', async (ctx: tt.Context): Promise<void>  => {
     // ctx.message.text = /char Brena Tari = Brena Tari
-    const char = ctx.message.text.replace('/char', '')
+    const char = ctx.message?.text.replace('/char', '')
     if (char) {
-        const charInfo = await axios.get(`https://api.tibiadata.com/v2/characters/${char}.json`).then(res => res.data.characters.data).catch(err => {
+        const charInfo = await axios.get(`https://api.tibiadata.com/v2/characters/${char}.json`).then((res: AxiosResponse) => res.data.characters.data).catch((err) => {
             ctx.reply('Invalid name.')
         })
         if (!charInfo || !charInfo.name) {
-            return ctx.reply('Invalid name.')
+            ctx.reply('Invalid name.')
         }
         const vocationIcon = () => {
             switch (charInfo.vocation) {
@@ -29,6 +31,7 @@ bot.command('char', async ctx => {
                 case 'Master Sorcerer' : return '🔥'
             }
         }
+
         const charResponse = `${charInfo.name} ${charInfo.sex === 'male' ? '♂' : '♀'}
 <b>Vocation:</b> ${charInfo.vocation} ${vocationIcon()}
 <b>Level:</b> ${charInfo.level}
@@ -37,24 +40,25 @@ bot.command('char', async ctx => {
 <b>Guild:</b> ${charInfo.guild?.name ? `${charInfo.guild?.rank} of ${charInfo.guild?.name}` : '-'}
 <b>Status:</b> ${charInfo.status} ${charInfo.status === 'online' ? '🟢' : '🔴'}
 <a href="https://www.tibia.com/community/?subtopic=characters&name=${charInfo.name}">See more</a>`
-        ctx.reply(charResponse, {parse_mode: "HTML", disable_web_page_preview: true, reply_to_message_id: ctx.message.message_id})
+        ctx.reply(charResponse, {parse_mode: "HTML", disable_web_page_preview: true, reply_to_message_id: ctx.message?.message_id})
     } else {
-        ctx.reply('Try use "<pre>/char [name]</pre>"', {reply_to_message_id: ctx.message.message_id, parse_mode: 'HTML'})
+        ctx.reply('Try use "<pre>/char [name]</pre>"', {reply_to_message_id: ctx.message?.message_id, parse_mode: 'HTML'})
     }
 })
 
-bot.command('test', ctx => {
+bot.command('test', (ctx: tt.Context) => {
     ctx.reply(`<pre>Teste h3</pre>`, {parse_mode: 'HTML'})
 })
 
-bot.command('share', ctx => {
-    const level = ctx.message.text.split(' ')[1]
+bot.command('share', (ctx: tt.Context) => {
+    let msg: string = ctx.message?.text ?? '0';
+    const level: number = parseInt(msg.split(' ')[1]);
     if (level && level > 1) {
         const minLevel = Math.round(level/3*2)
         const maxLevel = Math.round(level/2*3)
-        ctx.reply(`A level ${level} can share experience with levels ${minLevel} to ${maxLevel}.`, {reply_to_message_id: ctx.message.message_id})
+        ctx.reply(`A level ${level} can share experience with levels ${minLevel} to ${maxLevel}.`, {reply_to_message_id: ctx.message?.message_id})
     } else {
-        ctx.reply('Try to use "<pre>/share [level]</pre>"', {reply_to_message_id: ctx.message.message_id, parse_mode: 'HTML'})
+        ctx.reply('Try to use "<pre>/share [level]</pre>"', {reply_to_message_id: ctx.message?.message_id, parse_mode: 'HTML'})
     }
 })
 
