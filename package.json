@@ -6,7 +6,7 @@
   "scripts": {
     "start": "micro-bot",
     "build": "tsc --project ./",
-    "build:serve": "tsc --project ./ && micro-bot -e", 
+    "build:serve": "tsc --project ./ && micro-bot -e",
     "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
