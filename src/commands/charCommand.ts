@@ -35,9 +35,7 @@ export default class CharCommand implements CommandInterface {
     <b>Guild:</b> ${charInfo.guild?.name ? `${charInfo.guild?.rank} of ${charInfo.guild?.name}` : '-'}
     <b>Status:</b> ${charInfo.status} ${charInfo.status === 'online' ? '🟢' : '🔴'}
     <a href="https://www.tibia.com/community/?subtopic=characters&name=${charInfo.name}">See more</a>`
-            ctx.reply(charResponse, {parse_mode: "HTML", disable_web_page_preview: true, reply_to_message_id: ctx.message?.message_id}).catch((err) => {
-                console.log(err);
-            })
+            ctx.reply(charInfo.name + ' - Level: '+ charInfo.level, {reply_to_message_id: ctx.message?.message_id})
         } else {
             ctx.reply('Try use "<pre>/char [name]</pre>"', {reply_to_message_id: ctx.message?.message_id, parse_mode: 'HTML'})
         }
