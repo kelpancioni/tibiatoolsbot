@@ -14,28 +14,7 @@ export default class CharCommand implements CommandInterface {
             if (!charInfo || !charInfo.name) {
                 ctx.reply('Invalid name.')
             }
-            const vocationIcon = () => {
-                switch (charInfo.vocation) {
-                    case 'Elder Druid' : return '❄'
-                    case 'Druid' : return '❄'
-                    case 'Royal Paladin' : return '🏹'
-                    case 'Paladin' : return '🏹'
-                    case 'Elite Knight' : return '🛡'
-                    case 'Knight' : return '🛡'
-                    case 'Sorcerer' : return '🔥'
-                    case 'Master Sorcerer' : return '🔥'
-                }
-            }
-    
-            const charResponse = `${charInfo.name} ${charInfo.sex === 'male' ? '♂' : '♀'}
-    <b>Vocation:</b> ${charInfo.vocation} ${vocationIcon()}
-    <b>Level:</b> ${charInfo.level}
-    <b>World:</b> ${charInfo.world}
-    <b>Residence:</b> ${charInfo.residence}
-    <b>Guild:</b> ${charInfo.guild?.name ? `${charInfo.guild?.rank} of ${charInfo.guild?.name}` : '-'}
-    <b>Status:</b> ${charInfo.status} ${charInfo.status === 'online' ? '🟢' : '🔴'}
-    <a href="https://www.tibia.com/community/?subtopic=characters&name=${charInfo.name}">See more</a>`
-            ctx.reply(charInfo.name + ' - Level: '+ charInfo.level, {reply_to_message_id: ctx.message?.message_id})
+            ctx.reply('Funciona', {reply_to_message_id: ctx.message?.message_id, parse_mode: 'HTML'})
         } else {
             ctx.reply('Try use "<pre>/char [name]</pre>"', {reply_to_message_id: ctx.message?.message_id, parse_mode: 'HTML'})
         }
