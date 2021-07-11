@@ -26,4 +26,11 @@ function initCommands(): void {
 
 initCommands();
 
-module.exports = bot
+module.exports = {
+    bot: bot,
+    options: {
+        telegram: {
+            webhookReply: false,
+        }
+    },
+  }
