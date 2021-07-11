@@ -8,7 +8,7 @@ bot.start((ctx: Context): void => {
 })
 
 const commandsList: Array<string> = [
-    // 'charCommand',
+    'charCommand',
     'shareCommand'
 ];
 
@@ -26,4 +26,11 @@ function initCommands(): void {
 
 initCommands();
 
-module.exports = bot
+module.exports = {
+    bot: bot,
+    options: {
+        telegram: {
+            webhookReply: false,
+        }
+    },
+  }
