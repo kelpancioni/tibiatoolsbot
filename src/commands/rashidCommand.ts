@@ -16,13 +16,12 @@ export default class RashidCommand implements CommandInterface {
         ]
         const now = new Date((ctx.message?.date ?? 0) * 1000)
         let rashidLocation = 0
-        if (now.getHours() >= 5) {
+        if (now.getHours() >= 8) {
             rashidLocation = now.getDay()
         }
-        if (now.getHours() >= 0 && now.getHours() < 5) {
+        if (now.getHours() >= 0 && now.getHours() < 8) {
             rashidLocation = now.getDay()-1
         }
-        console.log(now.getHours(), rashidLocation, now)
         ctx.reply(`Rashid is in ${location[rashidLocation]} today.`, {reply_to_message_id: ctx.message?.message_id})
     }
 }
