@@ -24,6 +24,7 @@ export default class CharCommand implements CommandInterface {
                     case 'Knight' : return '🛡'
                     case 'Sorcerer' : return '🔥'
                     case 'Master Sorcerer' : return '🔥'
+                    default : return 'None'
                 }
             }
     
