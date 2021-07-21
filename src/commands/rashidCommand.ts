@@ -14,7 +14,7 @@ export default class RashidCommand implements CommandInterface {
             'Darashia',
             'Edron'
         ]
-        const now = new Date((ctx.message?.date ?? 0) * 1000)
+        const now = new Date(new Date((ctx.message?.date ?? 0) * 1000).setUTCHours(-2))
         let rashidLocation = 0
         if (now.getHours() >= 5) {
             rashidLocation = now.getDay()
