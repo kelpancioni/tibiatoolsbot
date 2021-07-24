@@ -8,8 +8,9 @@ bot.start((ctx: Context): void => {
 })
 
 const commandsList: Array<string> = [
-    'charCommand,
-    'shareCommand'
+    'charCommand',
+    'shareCommand',
+    'rashidCommand'
 ];
 
 function initCommands(): void {
