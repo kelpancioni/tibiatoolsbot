@@ -1,46 +1,29 @@
 import { Context } from 'telegraf/typings';
 import CommandInterface from './commandInterface';
-import axios, {AxiosResponse} from 'axios';
+import Character from '../entity/character';
+import TibiaDataApi from './../api/tibiaDataApi';
 
 export default class CharCommand implements CommandInterface {
     command:string = 'char';
 
     execute(ctx: Context): void {
-        const char = ctx.message?.text.replace('/char', '')
+        const char = ctx.message?.text.replace('/char', '').trim();
         if (char) {
-            axios.get(`https://api.tibiadata.com/v2/characters/${char}.json`).then(function (res: AxiosResponse) {
-            const charInfo = res.data.characters.data;
-            if (!charInfo || !charInfo.name) {
-                ctx.reply('Invalid name.')
-            }
-            const vocationIcon = () => {
-                switch (charInfo.vocation) {
-                    case 'Elder Druid' : return '❄'
-                    case 'Druid' : return '❄'
-                    case 'Royal Paladin' : return '🏹'
-                    case 'Paladin' : return '🏹'
-                    case 'Elite Knight' : return '🛡'
-                    case 'Knight' : return '🛡'
-                    case 'Sorcerer' : return '🔥'
-                    case 'Master Sorcerer' : return '🔥'
-                    default : return 'None'
-                }
-            }
-    
-            const charResponse = `${charInfo.name} ${charInfo.sex === 'male' ? '♂' : '♀'}
-    <b>Vocation:</b> ${charInfo.vocation} ${vocationIcon()}
-    <b>Level:</b> ${charInfo.level}
-    <b>World:</b> ${charInfo.world}
-    <b>Residence:</b> ${charInfo.residence}
-    <b>Guild:</b> ${charInfo.guild?.name ? `${charInfo.guild?.rank} of ${charInfo.guild?.name}` : '-'}
-    <b>Status:</b> ${charInfo.status} ${charInfo.status === 'online' ? '🟢' : '🔴'}
-    <a href="https://www.tibia.com/community/?subtopic=characters&name=${charInfo.name}">See more</a>`
-            ctx.reply(charResponse, {parse_mode: "HTML", disable_web_page_preview: true, reply_to_message_id: ctx.message?.message_id})
-        }).catch((err) => {
-                ctx.reply('Invalid name.')
-            })
+            TibiaDataApi.getCharData(char).then(
+                (charObject:Character) => ctx.reply(this.buildResponse(charObject),{parse_mode: "HTML", disable_web_page_preview: true, reply_to_message_id: ctx.message?.message_id})
+            ).catch(() =>ctx.reply('Try use "<pre>/char [name]</pre>"', {reply_to_message_id: ctx.message?.message_id, parse_mode: 'HTML'}));
         } else {
             ctx.reply('Try use "<pre>/char [name]</pre>"', {reply_to_message_id: ctx.message?.message_id, parse_mode: 'HTML'})
         }
     }
+
+    private buildResponse = (charObject: Character):string => `${charObject.getName()} ${charObject.getSexIcon()}
+<b>Vocation:</b> ${charObject.getVocation()} ${charObject.getVocationIcon()}
+<b>Level:</b> ${charObject.getLevel()}
+<b>World:</b> ${charObject.getWorld()}
+<b>Residence:</b> ${charObject.getResidence()}
+<b>Guild:</b> ${charObject.getGuildName().length > 0 ? `${charObject.getGuildRank()} of ${charObject.getGuildName()}` : '-'}
+<b>Status:</b> ${charObject.getStatus()} ${charObject.getStatusIcon()}
+<a href="https://www.tibia.com/community/?subtopic=characters&name=${charObject.getName()}">See more</a>`;
+
 }
