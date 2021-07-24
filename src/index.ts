@@ -19,7 +19,7 @@ function initCommands(): void {
             let commandImport = await import("./commands/"+commandName);
             let commandObj = new commandImport.default;
             bot.command(commandObj.command, (ctx: Context) => {
-                commandObj.execute(ctx);
+                return commandObj.execute(ctx);
             });
         })();
     }
@@ -27,11 +27,4 @@ function initCommands(): void {
 
 initCommands();
 
-module.exports = {
-    bot: bot,
-    options: {
-        telegram: {
-            webhookReply: false,
-        }
-    },
-  }
+module.exports = {bot: bot}

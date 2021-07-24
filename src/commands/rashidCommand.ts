@@ -1,10 +1,11 @@
 import { Context } from 'telegraf/typings';
+import { Message } from 'telegraf/typings/telegram-types';
 import CommandInterface from './commandInterface';
 
 export default class RashidCommand implements CommandInterface {
     command:string = 'rashid';
 
-    execute(ctx: Context): void {
+    execute(ctx: Context): Promise<Message> {
         const location = [
             'Carlin',
             'Svargrond',
@@ -22,6 +23,6 @@ export default class RashidCommand implements CommandInterface {
         if (now.getHours() >= 0 && now.getHours() < 8) {
             rashidLocation = now.getDay()-1
         }
-        ctx.reply(`Rashid is in ${location[rashidLocation]} today.`, {reply_to_message_id: ctx.message?.message_id})
+        return ctx.reply(`Rashid is in ${location[rashidLocation]} today.`, {reply_to_message_id: ctx.message?.message_id})
     }
 }

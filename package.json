@@ -16,11 +16,13 @@
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
     "micro-bot": "^2.5.3",
+    "pino": "^6.13.0",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.5"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
+    "@types/pino": "^6.3.9",
     "nodemon": "^2.0.7",
     "telegraf": "^3.25.4"
   }
